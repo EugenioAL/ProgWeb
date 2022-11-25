@@ -1,0 +1,10 @@
+div {
+    font-size: 22px;
+    padding: 0% 10% 0% 10%;
+    background-color: rgb(172, 147, 147);
+    border: 10px solid black;
+    border-bottom-left-radius: 75px;
+    border-top-right-radius: 75px;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}

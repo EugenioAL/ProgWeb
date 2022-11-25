@@ -1,0 +1,21 @@
+body {
+    background-image: url("opera.jpg");
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+.box {
+    margin: 20% 0% 0% 10%;
+    border: 10px solid;
+    width: 700px;
+    background-color: white;
+    border-color: rgb(170, 105, 255);
+    text-align: justify;
+    padding: 5px 20px 20px 20px;
+    opacity: 80%;
+    
+}
+
+.res {
+    font-size: 25px;
+}
