@@ -1,12 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="index.css">
-    <script src="index.js"></script>
-    <title>Taboada</title>
+    <meta charset='utf-8'>
+    <title>Dot Trace</title>
+    <style>
+        body {
+            background-color: bisque;
+        }
+
+        .dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            position: absolute;
+            background-color: blue;
+        }
+
+    </style>
 </head>
 <body>
-    
+    <canvas id="canvas"></canvas>
 </body>
-</html>
+
+<script>
+    var dots = [];
+
+    window.addEventListener("mousemove", (e) => {
+        var ponto = document.createElement("div");
+        ponto.className = "dot";
+        ponto.style.left = e.clientX + "px";
+        ponto.style.top = e.clientY + "px";
+       
+        dots.unshift(ponto);
+
+        if (dots.length > 7) {
+            dots[7].remove();
+            dots.pop()
+        };
+
+        for(let item of dots) {
+            document.body.appendChild(item);
+        }
+    });
+
+</script> 
+</html> 

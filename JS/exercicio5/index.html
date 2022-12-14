@@ -1,12 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="index.css">
-    <script src="index.js"></script>
-    <title>Taboada</title>
-</head>
-<body>
-    
-</body>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="index.css">
+        <title>Calculadora de circulos</title>
+    </head>
+    <body>
+        <label>Informe o raio   : </label>
+        <input type="number" name="raio" id="raio" value="0">
+        <button type="button" id="ok">OK</button><br>
+        <label>Área do círculo:</label>
+        <input type="text" name="area" id="area" disabled="true"><br>
+        <label>Circunferência : </label>
+        <input type="text" name="circ" id="circ" disabled="true">
+
+        <!-- por algum motivo nao estava reconhecendo os ids no modo externo-->
+
+        <script>
+            function areaCirculo(num){
+                return num*num*Math.PI;
+            }
+
+            function compCirculo(num){
+                return 2*Math.PI*num;
+            }
+
+            document.getElementById("ok").onclick = function(){
+                let x = document.getElementById("raio").value;
+                document.getElementById("area").value = areaCirculo(x);
+                document.getElementById("circ").value = compCirculo(x);
+            }
+        </script>
+    </body>
 </html>
