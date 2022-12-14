@@ -1,9 +1,7 @@
-table {
-    float: left;
-    margin-left: 10px;
-    margin-top: 10px;
-}
-
-body {
-    padding-left: 10px;
+barra{
+    width: 0;
+    height: 0;
+    padding-left: 5px;
+    color: red;
+    position: relative;
 }
