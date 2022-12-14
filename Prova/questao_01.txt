@@ -1,0 +1,10 @@
+na linha 04, não é esse o padrão correto para se comentar em HTML é o padrão <!---->.
+
+
+na linha 09, na tag style esta invertido o id com a propriedade do CSS, basta inverter.
+
+na linha 15, era para ser aberto a tag <body> o que esta faltando neste codigo, para resolver basta colocar abaixo da
+ </head> e depois colocar </body> antes de fechar a tag </html>.
+
+
+na linha linha 24, é aberto uma tag de style porem é implementado uma função, basta trocar a tag style por script.

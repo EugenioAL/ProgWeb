@@ -1,0 +1,9 @@
+hoisting é quando o interpretador do javascript coloca todas as referencias das funções
+no topoo da pilha, permitindo assim serem chamadas antes de serem lida suas implementaçoes
+
+
+soma(a,b);
+
+function soma(num1,num2){
+    reutnr num1 + num2;
+}
