@@ -3,7 +3,7 @@
   const TAMY = 800;
   const FPS = 100;
 
-  const PROB_ENEMY_SHIP = 0.5;
+  const PROB_ENEMY_SHIP = 0.0;
 
   let space, ship;
   let enemies = [];
@@ -53,10 +53,13 @@
       }
     }
     move() {
-      if (this.direcao === 0)
-        this.element.style.left = `${parseInt(this.element.style.left) - 1}px`;
-      if (this.direcao === 2)
-        this.element.style.left = `${parseInt(this.element.style.left) + 1}px`;
+      
+      if (this.direcao === 0 && this.element.style.left != '0px')
+        this.element.style.left = `${parseInt(this.element.style.left) - 5}px`;
+      if (this.direcao === 2 && this.element.style.left != `${TAMX-100}px`)
+        this.element.style.left = `${parseInt(this.element.style.left) + 5}px`;
+
+      console.log(this.element.style.left);
       space.move();
     }
   }
