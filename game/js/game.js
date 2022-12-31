@@ -58,6 +58,10 @@
         this.element.style.left = `${parseInt(this.element.style.left) - 5}px`;
       if (this.direcao === 2 && this.element.style.left != `${TAMX-100}px`)
         this.element.style.left = `${parseInt(this.element.style.left) + 5}px`;
+      if (this.direcao === 3 && this.element.style.top != `0px`)
+        this.element.style.left = `${parseInt(this.element.style.left) - 5}px`;
+      if (this.direcao === 4 && this.element.style.top != `${TAMY-100}px`)
+        this.element.style.left = `${parseInt(this.element.style.left) + 5}px`;
 
       console.log(this.element.style.left);
       space.move();
