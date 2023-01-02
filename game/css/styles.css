@@ -5,6 +5,10 @@
   overflow: hidden;
 }
 
+#placar {
+  position: absolute;
+}
+
 #ship {
   position: absolute;
 }

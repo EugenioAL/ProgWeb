@@ -5,17 +5,19 @@
 
   const PROB_ENEMY_SHIP = 0.0;
 
-  let space, ship;
+  let space, ship,placar;
   let enemies = [];
 
   function init() {
     space = new Space();
     ship = new Ship();
+    placar = new Placar();
     const interval = window.setInterval(run, 1000 / FPS);
   }
 
   window.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") ship.mudaDirecao(-1);
+    if (e.key === "ArrowLeft") {ship.mudaDirecao(-1);
+      ship.direcao = 0}
     else if (e.key === "ArrowRight") ship.mudaDirecao(+1);
   });
 
@@ -30,6 +32,25 @@
       this.element.style.backgroundPositionY = `${
         parseInt(this.element.style.backgroundPositionY) + 1
       }px`;
+    }
+  }
+
+  class Placar {
+    constructor(){
+      this.element = document.getElementById("placar");
+      this.element.style.width = `${TAMX}px`;
+      this.element.style.height = `${30}px`;
+      this.element.style.backgroundColor = `red`;
+      this.pontos = 0;
+      this.show();
+    }
+
+    show(){
+      this.element.innerHTML = this.pontos;
+    }
+
+    addPontos(){
+      console.log(this.pontos);
     }
   }
 
@@ -52,18 +73,11 @@
         this.element.src = this.AssetsDirecoes[this.direcao];
       }
     }
-    move() {
-      
+    move() {      
       if (this.direcao === 0 && this.element.style.left != '0px')
         this.element.style.left = `${parseInt(this.element.style.left) - 5}px`;
       if (this.direcao === 2 && this.element.style.left != `${TAMX-100}px`)
         this.element.style.left = `${parseInt(this.element.style.left) + 5}px`;
-      if (this.direcao === 3 && this.element.style.top != `0px`)
-        this.element.style.left = `${parseInt(this.element.style.left) - 5}px`;
-      if (this.direcao === 4 && this.element.style.top != `${TAMY-100}px`)
-        this.element.style.left = `${parseInt(this.element.style.left) + 5}px`;
-
-      console.log(this.element.style.left);
       space.move();
     }
   }
