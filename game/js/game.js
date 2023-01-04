@@ -41,7 +41,11 @@
       this.element.style.width = `${TAMX}px`;
       this.element.style.height = `${30}px`;
       this.element.style.backgroundColor = `red`;
-      this.pontos = 0;
+      this.element.style.color = `white`;
+      this.element.style.fontStyle = `verdana`;
+      this.element.style.fontSize = `30px`
+      this.element.style.fontWeight = `bold`;
+      this.pontos = 10;
       this.show();
     }
 
