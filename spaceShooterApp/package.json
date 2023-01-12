@@ -1,0 +1,11 @@
+{
+  "name": "spaceshooterapp",
+  "version": "1.0.0",
+  "description": "Jogo de navinha",
+  "main": "index.js",
+  "scripts": {
+    "test": "start"
+  },
+  "author": "Eugênio Alves",
+  "license": "ISC"
+}
