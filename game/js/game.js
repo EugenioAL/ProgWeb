@@ -35,22 +35,33 @@
     }
   }
 
+  class Pontos {
+    constructor(){
+      this.val = 0;
+    }
+
+    addPontos(x) {
+      this.val +=x;
+    }
+  }
+
+  class Vidas{
+    
+  }
+
   class Placar {
     constructor(){
       this.element = document.getElementById("placar");
       this.element.style.width = `${TAMX}px`;
       this.element.style.height = `${30}px`;
-      this.element.style.backgroundColor = `red`;
-      this.element.style.color = `white`;
-      this.element.style.fontStyle = `verdana`;
-      this.element.style.fontSize = `30px`
-      this.element.style.fontWeight = `bold`;
-      this.pontos = 10;
+      this.element.style.backgroundColor = `purple`;
+      this.element.style.color = `white`
+      this.element.style.fontSize = `${30}px`;
       this.show();
     }
 
     show(){
-      this.element.innerHTML = this.pontos;
+      this.element.innerHTML = 'Placar';
     }
 
     addPontos(){
