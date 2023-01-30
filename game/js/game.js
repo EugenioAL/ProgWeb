@@ -43,6 +43,10 @@
     addPontos(x) {
       this.val +=x;
     }
+
+    getPontos(){
+      return this.val;
+    }
   }
 
   class Vidas{
