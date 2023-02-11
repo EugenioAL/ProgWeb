@@ -3,23 +3,35 @@
   const TAMY = 800;
   const FPS = 100;
 
-  const PROB_ENEMY_SHIP = 0.0;
+  const PROB_ENEMY_SHIP = 0.7;
 
-  let space, ship,placar;
+  let space, ship,placar,pontos;
   let enemies = [];
+
 
   function init() {
     space = new Space();
     ship = new Ship();
     placar = new Placar();
-    const interval = window.setInterval(run, 1000 / FPS);
+    pontos = new Pontos();
+    let pause = true;
+    let interval;
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") {ship.mudaDirecao(-1);
+        ship.direcao = 0}
+      else if (e.key === "ArrowRight") ship.mudaDirecao(+1);
+      else if (e.key === "p"){
+        if(pause){
+         interval = window.setInterval(run, 1000 / FPS);
+         pause = false;
+        }
+        else{
+          window.clearInterval(interval);
+          pause = true;
+        }
+      }
+      });
   }
-
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") {ship.mudaDirecao(-1);
-      ship.direcao = 0}
-    else if (e.key === "ArrowRight") ship.mudaDirecao(+1);
-  });
 
   class Space {
     constructor() {
@@ -29,9 +41,7 @@
       this.element.style.backgroundPositionY = "0px";
     }
     move() {
-      this.element.style.backgroundPositionY = `${
-        parseInt(this.element.style.backgroundPositionY) + 1
-      }px`;
+      this.element.style.backgroundPositionY = `${parseInt(this.element.style.backgroundPositionY) + 1}px`;
     }
   }
 
@@ -56,16 +66,16 @@
   class Placar {
     constructor(){
       this.element = document.getElementById("placar");
-      this.element.style.width = `${TAMX}px`;
+      this.element.style.width = `${7*30}px`;
       this.element.style.height = `${30}px`;
       this.element.style.backgroundColor = `purple`;
+      this.element.style.left = `${parseInt(TAMX) - 210}px`;
       this.element.style.color = `white`
       this.element.style.fontSize = `${30}px`;
-      this.show();
     }
 
-    show(){
-      this.element.innerHTML = 'Placar';
+    show(pontos){
+      this.element.innerHTML = pontos;
     }
 
     addPontos(){
@@ -112,6 +122,13 @@
     }
     move() {
       this.element.style.top = `${parseInt(this.element.style.top) + 2}px`;
+      this.removeDOM();
+    }
+
+    removeDOM(){
+      if(this.element.style.top == `${TAMY/2}px`){
+        this.element.remove();
+      }
     }
   }
 
@@ -120,6 +137,7 @@
     if (random_enemy_ship <= PROB_ENEMY_SHIP) {
       enemies.push(new EnemyShip());
     }
+    placar.show(pontos.getPontos());
     enemies.forEach((e) => e.move());
     ship.move();
   }
