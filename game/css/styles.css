@@ -9,7 +9,7 @@
   position: absolute;
 }
 
-#vidas{
+#vidas {
   position: absolute;
 }
 
@@ -18,5 +18,9 @@
 }
 
 .enemy-ship {
+  position: absolute;
+}
+
+.beam {
   position: absolute;
 }
