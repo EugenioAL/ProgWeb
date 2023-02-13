@@ -24,3 +24,15 @@
 .beam {
   position: absolute;
 }
+
+.enemy-ufo {
+  position: absolute;
+}
+
+.meteor-small {
+  position: absolute;
+}
+
+.meteor-big {
+  position: absolute;
+}
