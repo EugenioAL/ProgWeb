@@ -1,3 +1,6 @@
+Apenas um seletor foi apresentado.
+Nota: 0.7
+
 <style>
         span{
             color: red;
