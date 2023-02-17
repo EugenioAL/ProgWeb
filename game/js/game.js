@@ -1,11 +1,11 @@
 (function () {
   const TAMX = 600;
   const TAMY = 800;
-  let FPS = 100;
+  let FPS = 50;
 
-  const PROB_ENEMY_SHIP = 0.4;
-  const PROB_ENEMY_UFO = 0.4;
-  const PROB_ENEMY_METEOR = 0.4;
+  const PROB_ENEMY_SHIP = 0.2;
+  const PROB_ENEMY_UFO = 0.3;
+  const PROB_ENEMY_METEOR = 0.1;
   const PROB_ENEMY_METEORB = 0.4;
 
   let space, ship,placar,vida;
@@ -14,6 +14,7 @@
 
   let pause = true;
   let interval;
+  let gameOver = 0;
 
 
   function init() {
@@ -31,7 +32,6 @@
         if(pause){
           interval = window.setInterval(run, 1000 / FPS);
           pause = false;
-          vida.perdeVida();
         }
         else{
           window.clearInterval(interval);
@@ -112,6 +112,9 @@
       this.element.src = this.AssetsDirecoes[this.direcao];
       this.element.style.bottom = "20px";
       this.element.style.left = `${parseInt(TAMX / 2) - 50}px`;
+      this.raio = 37;
+      this.posx = parseInt(this.element.style.left) + this.raio;
+      this.posy = TAMY - parseInt(this.element.style.bottom) - this.raio;
       this.element.style.zIndex = 2;
     }
     mudaDirecao(giro) {
@@ -123,8 +126,12 @@
     move() {      
       if (this.direcao === 0 && this.element.style.left != '0px')
         this.element.style.left = `${parseInt(this.element.style.left) - 5}px`;
+        this.posx = parseInt(this.element.style.left) + this.raio;
+        this.posy = TAMY - parseInt(this.element.style.bottom) - this.raio;
       if (this.direcao === 2 && this.element.style.left != `${TAMX-100}px`)
         this.element.style.left = `${parseInt(this.element.style.left) + 5}px`;
+        this.posx = parseInt(this.element.style.left) + this.raio;
+        this.posy = TAMY - parseInt(this.element.style.bottom) - this.raio;
       space.move();
     }
   }
@@ -134,8 +141,12 @@
       this.element = document.createElement("img");
       this.element.className = "enemy-ship";
       this.element.src = "assets/enemyShip.png";
-      this.element.style.top = "0px";
+      this.element.style.top = `0px`;
+      this.raio = 25;
+      this.pontos = 50;
       this.element.style.left = `${Math.floor(Math.random() * TAMX)}px`;
+      this.posx = parseInt(this.element.style.left) + this.raio;
+      this.posy = parseInt(this.element.style.top) + this.raio;
       this.coin = (Math.floor(Math.random() *10))%2;
       space.element.appendChild(this.element);
     }
@@ -150,17 +161,40 @@
       }
       if(this.coin == 1){
         this.element.style.left = `${parseInt(this.element.style.left) + 1}px`;
+        this.posx = parseInt(this.element.style.left) + this.raio;
+        this.posy = parseInt(this.element.style.top) + this.raio;
       }
       else{
         this.element.style.left = `${parseInt(this.element.style.left) - 1}px`;
+        this.posx = parseInt(this.element.style.left) + this.raio;
+        this.posy = parseInt(this.element.style.top) + this.raio;
       }
       this.removeDOM();
     }
 
     removeDOM(){
-      if(this.element.style.top == `${TAMY}px`){
+      if(parseInt(this.element.style.top) >= 800){
         this.element.remove();
       }
+    }
+
+    colide(e){
+      let hit = false;
+      if(getDistance(this.posx,this.posy,e.posx,e.posy) < this.raio + e.raio){
+        this.element.style.top = `900px`;
+        hit = true;
+      }
+      if(hit){
+        if(e.raio == 37){
+          vida.perdeVida();
+          return 1;
+        }
+        else if(e.raio == 6){
+          placar.addPontos(this.pontos);
+          return 1;
+        }
+      }
+      return 0;
     }
   }
 
@@ -170,6 +204,8 @@
       this.element.className = "meteor-small";
       this.element.src = "assets/meteorSmall.png";
       this.element.style.top = "0px";
+      this.raio = 21;
+      this.pontos = 100;
       this.element.style.left = `${Math.floor(Math.random() * TAMX)}px`;
       this.coin = (Math.floor(Math.random() *10))%2;
       space.element.appendChild(this.element);
@@ -185,9 +221,13 @@
       }
       if(this.coin == 1){
         this.element.style.left = `${parseInt(this.element.style.left) + 1}px`;
+        this.posx = parseInt(this.element.style.left) + this.raio;
+        this.posy = parseInt(this.element.style.top) + this.raio;
       }
       else{
         this.element.style.left = `${parseInt(this.element.style.left) - 1}px`;
+        this.posx = parseInt(this.element.style.left) + this.raio;
+        this.posy = parseInt(this.element.style.top) + this.raio;
       }
       this.removeDOM();
     }
@@ -196,6 +236,25 @@
       if(this.element.style.top == `${TAMY}px`){
         this.element.remove();
       }
+    }
+
+    colide(e){
+      let hit = false;
+      if(getDistance(this.posx,this.posy,e.posx,e.posy) < this.raio + e.raio){
+        this.element.style.top = `900px`;
+        hit = true;
+      }
+      if(hit){
+        if(e.raio == 37){
+          vida.perdeVida();
+          return 1;
+        }
+        else if(e.raio == 6){
+          placar.addPontos(this.pontos);
+          return 1;
+        }
+      }
+      return 0;
     }
   }
 
@@ -205,6 +264,10 @@
       this.element.className = "meteor-big";
       this.element.src = "assets/meteorBig.png";
       this.element.style.top = "0px";
+      this.raio = 50;
+      this.pontos = 10;
+      this.posx = parseInt(this.element.style.left) + this.raio;
+      this.posy = TAMY - parseInt(this.element.style.bottom) - this.raio;
       this.element.style.left = `${Math.floor(Math.random() * TAMX)}px`;
       this.coin = (Math.floor(Math.random() *10))%2;
       space.element.appendChild(this.element);
@@ -220,9 +283,13 @@
       }
       if(this.coin == 1){
         this.element.style.left = `${parseInt(this.element.style.left) + 1}px`;
+        this.posx = parseInt(this.element.style.left) + this.raio;
+        this.posy = parseInt(this.element.style.top) + this.raio;
       }
       else{
         this.element.style.left = `${parseInt(this.element.style.left) - 1}px`;
+        this.posx = parseInt(this.element.style.left) + this.raio;
+        this.posy = parseInt(this.element.style.top) + this.raio;
       }
       this.removeDOM();
     }
@@ -230,7 +297,27 @@
     removeDOM(){
       if(this.element.style.top == `${TAMY}px`){
         this.element.remove();
+        vida.perdeVida();
       }
+    }
+
+    colide(e){
+      let hit = false;
+      if(getDistance(this.posx,this.posy,e.posx,e.posy) < this.raio + e.raio){
+        this.element.style.top = `900px`;
+        hit = true;
+      }
+      if(hit){
+        if(e.raio == 37){
+          vida.perdeVida();
+          return 1;
+        }
+        else if(e.raio == 6){
+          placar.addPontos(this.pontos);
+          return 1;
+        }
+      }
+      return 0;
     }
   }
 
@@ -240,6 +327,10 @@
       this.element.className = "enemy-ufo";
       this.element.src = "assets/enemyUFO.png";
       this.element.style.top = "0px";
+      this.raio = 45;
+      this.pontos = 20;
+      this.posx = parseInt(this.element.style.left) + this.raio;
+      this.posy = TAMY - parseInt(this.element.style.bottom) - this.raio;
       this.element.style.left = `${Math.floor(Math.random() * TAMX)}px`;
       this.coin = (Math.floor(Math.random() *10))%2;
       space.element.appendChild(this.element);
@@ -255,17 +346,41 @@
       }
       if(this.coin == 1){
         this.element.style.left = `${parseInt(this.element.style.left) + 1}px`;
+        this.posx = parseInt(this.element.style.left) + this.raio;
+        this.posy = parseInt(this.element.style.top) + this.raio;
       }
       else{
         this.element.style.left = `${parseInt(this.element.style.left) - 1}px`;
+        this.posx = parseInt(this.element.style.left) + this.raio;
+        this.posy = parseInt(this.element.style.top) + this.raio;
       }
       this.removeDOM();
     }
 
     removeDOM(){
       if(this.element.style.top == `${TAMY}px`){
+        space.element.pop(this.element);
         this.element.remove();
       }
+    }
+
+    colide(e){
+      let hit = false;
+      if(getDistance(this.posx,this.posy,e.posx,e.posy) < this.raio + e.raio){
+        this.element.style.top = `900px`;
+        hit = true;
+      }
+      if(hit){
+        if(e.raio == 37){
+          vida.perdeVida();
+          return 1;
+        }
+        else if(e.raio == 6){
+          placar.addPontos(this.pontos);
+          return 1;
+        }
+      }
+      return 0;
     }
   }
 
@@ -274,13 +389,17 @@
       this.element = document.createElement("img");
       this.element.className = "beam";
       this.element.src = "assets/laserGreen.png";
+      this.raio = 6;
       this.element.style.left = `${parseInt(ship.element.style.left) + 46}px`;
+      this.posx = parseInt(ship.element.style.left) + this.raio;
+      this.posy = TAMY - parseInt(ship.element.style.bottom) - this.raio;
       this.element.style.bottom = ship.element.style.bottom;
       space.element.appendChild(this.element);
       
     }
     move() {
       this.element.style.bottom = `${parseInt(this.element.style.bottom) + 4}px`;
+      this.posy = TAMY - parseInt(this.element.style.bottom) - this.raio;
       this.removeDOM();
     }
 
@@ -289,11 +408,22 @@
         this.element.remove();
       }
     }
+
+    colide(){
+      let index;
+      for(index = 0; index < enemies.length; index++ ){
+        if(enemies[index].colide(this)){
+          enemies.splice(index,1);
+          this.element.style.bottom = `${780}px`;
+          return 1
+        }
+      }
+      return 0;
+    }
   }
 
   function run() {
     const random_enemy_ship = Math.random() * 100;
-    console.log(random_enemy_ship);
     if (random_enemy_ship <= PROB_ENEMY_SHIP) {
       enemies.push(new EnemyShip());
     }
@@ -307,12 +437,22 @@
       enemies.push(new MeteorSmall());
     }
     enemies.forEach((e) => e.move());
+    enemies.forEach((e) => e.colide(ship));
     beams.forEach((e) => e.move());
+    beams.forEach((e) => e.colide());
     placar.show(placar.pontos);
-    ship.move();
-    FPS++;
+    console.log(vida.qt);
+    console.log(enemies);
+    ship.move()
+    if(vida.qt == 0){
+      window.clearInterval(interval);
+      gameOver = 1;
+    }
 
   }
 
   init();
+  if(gameOver == 1){
+    return placar.pontos;
+  }
 })();
