@@ -1,3 +1,6 @@
+Todos os erros foram encontrados corretamente.
+Nota 2.0
+
 na linha 04, não é esse o padrão correto para se comentar em HTML é o padrão <!---->.
 
 

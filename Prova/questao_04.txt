@@ -1,3 +1,6 @@
+Conceito de hoisting parcialmente correto. As declarações são levadas para o início do escopo, não do código. Exemplo de código correto.
+Nota: 1.5
+
 hoisting é quando o interpretador do javascript coloca todas as referencias das funções
 no topoo da pilha, permitindo assim serem chamadas antes de serem lida suas implementaçoes
 
