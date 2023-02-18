@@ -15,6 +15,7 @@
   let pause = true;
   let interval;
   let gameOver = 0;
+  let iniciar = 0;
 
 
   function init() {
@@ -27,8 +28,13 @@
       if (e.key === "ArrowLeft") {ship.mudaDirecao(-1);
         ship.direcao = 0}
       else if (e.key === "ArrowRight") ship.mudaDirecao(+1);
+      else if (e.code === "Space" && iniciar == 0){
+        beams.push(new Beam());
+        interval = window.setInterval(run, 1000 / FPS);
+        iniciar = 1;
+      }
       else if (e.code === "Space") beams.push(new Beam());
-      else if (e.key === "p"){
+      else if (e.key === "p" && iniciar == 1){
         if(pause){
           interval = window.setInterval(run, 1000 / FPS);
           pause = false;
@@ -39,6 +45,24 @@
         }
       }
     });
+  }
+
+  function cleanEnemies(vetor){
+    let i;
+    for(i=0;i<vetor.length;i++){
+      if(parseInt(vetor[i].element.style.top) > TAMY){
+        vetor.splice(i,1);
+      }
+    }
+  }
+
+  function cleanBeams(vetor){
+    let i;
+    for(i=0;i<vetor.length;i++){
+      if(parseInt(vetor[i].element.style.bottom) > TAMY){
+        vetor.splice(i,1);
+      }
+    }
   }
 
   class Space {
@@ -151,7 +175,7 @@
       space.element.appendChild(this.element);
     }
     move() {
-      this.element.style.top = `${parseInt(this.element.style.top) + 2}px`;
+      this.element.style.top = `${parseInt(this.element.style.top) + 8}px`;
 
       if(parseInt(this.element.style.left) >= TAMX-100){
         this.coin = false;
@@ -160,12 +184,12 @@
         this.coin = true;
       }
       if(this.coin == 1){
-        this.element.style.left = `${parseInt(this.element.style.left) + 1}px`;
+        this.element.style.left = `${parseInt(this.element.style.left) + 5}px`;
         this.posx = parseInt(this.element.style.left) + this.raio;
         this.posy = parseInt(this.element.style.top) + this.raio;
       }
       else{
-        this.element.style.left = `${parseInt(this.element.style.left) - 1}px`;
+        this.element.style.left = `${parseInt(this.element.style.left) - 5}px`;
         this.posx = parseInt(this.element.style.left) + this.raio;
         this.posy = parseInt(this.element.style.top) + this.raio;
       }
@@ -211,7 +235,7 @@
       space.element.appendChild(this.element);
     }
     move() {
-      this.element.style.top = `${parseInt(this.element.style.top) + 2}px`;
+      this.element.style.top = `${parseInt(this.element.style.top) + 10}px`;
 
       if(parseInt(this.element.style.left) >= TAMX-100){
         this.coin = false;
@@ -220,12 +244,12 @@
         this.coin = true;
       }
       if(this.coin == 1){
-        this.element.style.left = `${parseInt(this.element.style.left) + 1}px`;
+        this.element.style.left = `${parseInt(this.element.style.left) + 10}px`;
         this.posx = parseInt(this.element.style.left) + this.raio;
         this.posy = parseInt(this.element.style.top) + this.raio;
       }
       else{
-        this.element.style.left = `${parseInt(this.element.style.left) - 1}px`;
+        this.element.style.left = `${parseInt(this.element.style.left) - 10}px`;
         this.posx = parseInt(this.element.style.left) + this.raio;
         this.posy = parseInt(this.element.style.top) + this.raio;
       }
@@ -359,7 +383,6 @@
 
     removeDOM(){
       if(this.element.style.top == `${TAMY}px`){
-        space.element.pop(this.element);
         this.element.remove();
       }
     }
@@ -441,8 +464,9 @@
     beams.forEach((e) => e.move());
     beams.forEach((e) => e.colide());
     placar.show(placar.pontos);
-    console.log(vida.qt);
     console.log(enemies);
+    cleanBeams(beams);
+    cleanEnemies(enemies);
     ship.move()
     if(vida.qt == 0){
       window.clearInterval(interval);
